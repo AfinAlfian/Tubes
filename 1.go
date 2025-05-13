@@ -122,13 +122,16 @@ func menuKripto(k *kripto, n *int) {
 		switch a {
 		case 1:
 			lihatKripto(*k, *n)
+			fmt.Println()
 		case 2:
 			inputKripto(k, n)
+			fmt.Println()
 		case 3:
 			fmt.Print("Masukkan nama kripto yang ingin dihapus: ")
 			var x string
 			fmt.Scan(&x)
 			hapusKripto(k, n, x)
+			fmt.Println()
 		case 4:
 			fmt.Print("Cari berdasarkan (harga/nama): ")
 			var y string
@@ -156,7 +159,7 @@ func menuKripto(k *kripto, n *int) {
 					fmt.Println("Kripto tidak ditemukan")
 				}
 			}
-
+			fmt.Println()
 		case 5:
 			fmt.Print("Urutkan berdasarkan (harga/nama): ")
 			var y string
@@ -166,10 +169,13 @@ func menuKripto(k *kripto, n *int) {
 			} else if y == "nama" {
 				SelectionSort(k, *n)
 			}
+			fmt.Println("Data kripto sudah diurutkan")
+			fmt.Println()
 		case 6:
 			return
 		default:
 			fmt.Println("Pilihan tidak valid")
+			fmt.Println()
 		}
 	}
 }
@@ -186,9 +192,11 @@ func lihatKripto(k kripto, n int) {
 
 func inputKripto(k *kripto, n *int) {
 	*n = 3
+	fmt.Print("Masukkan nama kripto: ")
 	fmt.Scan(&k[*n].nama)
+	fmt.Print("Masukkan harga kripto: ")
 	fmt.Scan(&k[*n].harga)
-	for k[*n].nama != "-" || k[*n].harga != 0 {
+	for k[*n].nama != "0" || k[*n].harga != 0 {
 		*n++
 		fmt.Print("Masukkan nama kripto: ")
 		fmt.Scan(&k[*n].nama)
@@ -270,7 +278,7 @@ func sequentialSearchStr(A kripto, n int, x string) int {
 }
 
 func SelectionSort(A *kripto, n int) {
-	var i, idx, pass int
+	var i, idx, pass, temp2 int
 	var temp string
 
 	pass = 1
@@ -278,7 +286,7 @@ func SelectionSort(A *kripto, n int) {
 		idx = pass - 1
 		i = pass
 		for i < n {
-			if A[i].nama > A[idx].nama {
+			if A[i].nama < A[idx].nama {
 				idx = i
 			}
 			i++
@@ -286,6 +294,10 @@ func SelectionSort(A *kripto, n int) {
 		temp = A[pass-1].nama
 		A[pass-1].nama = A[idx].nama
 		A[idx].nama = temp
+
+		temp2 = A[pass-1].harga
+		A[pass-1].harga = A[idx].harga
+		A[idx].harga = temp2
 		pass++
 	}
 }
@@ -293,13 +305,14 @@ func SelectionSort(A *kripto, n int) {
 func SelectionSortInt(A *kripto, n int) {
 	var i, idx, pass int
 	var temp int
+	var temp2 string
 
 	pass = 1
 	for pass < n {
 		idx = pass - 1
 		i = pass
 		for i < n {
-			if A[i].harga > A[idx].harga {
+			if A[i].harga < A[idx].harga {
 				idx = i
 			}
 			i++
@@ -307,6 +320,10 @@ func SelectionSortInt(A *kripto, n int) {
 		temp = A[pass-1].harga
 		A[pass-1].harga = A[idx].harga
 		A[idx].harga = temp
+
+		temp2 = A[pass-1].nama
+		A[pass-1].nama = A[idx].nama
+		A[idx].nama = temp2
 		pass++
 	}
 }
