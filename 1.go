@@ -76,14 +76,14 @@ func main() {
 		}
 		fmt.Println("-----------------------------------------")
 		fmt.Println("1. Lihat Daftar Kripto")
-		fmt.Println("2. Edit Kripto")
-		fmt.Println("2. Lihat Portofolio")
-		fmt.Println("3. Lihat Riwayat Transaksi")
-		fmt.Println("4. Beli Kripto")
-		fmt.Println("5. Jual Kripto")
-		fmt.Println("6. Keluar")
+		fmt.Println("2. Cari Kripto")
+		fmt.Println("3. Edit Kripto")
+		fmt.Println("4. Lihat Portofolio")
+		fmt.Println("5. Lihat Riwayat Transaksi")
+		fmt.Println("6. Beli Kripto")
+		fmt.Println("7. Jual Kripto")
+		fmt.Println("8. Keluar")
 		fmt.Println("-----------------------------------------")
-
 		fmt.Print("Pilih menu: ")
 		fmt.Scan(&b)
 
@@ -91,11 +91,14 @@ func main() {
 		case 1:
 			lihatKripto(k, n)
 		case 2:
-			menuKripto(&k, &n)
+			cariKriptoSeq(k, n)
 		case 3:
+			menuKripto(&k, &n)
 		case 4:
 		case 5:
 		case 6:
+		case 7:
+		case 8:
 			return
 		default:
 			fmt.Println("Pilihan tidak valid")
@@ -105,77 +108,50 @@ func main() {
 }
 
 func menuKripto(k *kripto, n *int) {
+	var a int
+	var x, y, s string
 	for {
-		var a int
 		fmt.Println("-----------------------------------------")
 		fmt.Println("|              Menu Kripto              |")
 		fmt.Println("-----------------------------------------")
 		fmt.Println("1. Lihat Daftar Kripto")
 		fmt.Println("2. Tambah Kripto")
 		fmt.Println("3. Hapus Kripto")
-		fmt.Println("4. Cari Kripto")
-		fmt.Println("5. Urutkan Kripto")
-		fmt.Println("6. Kembali ke Menu Utama")
+		fmt.Println("4. Urutkan Kripto")
+		fmt.Println("5. Kembali ke Menu Utama")
 		fmt.Println("-----------------------------------------")
 		fmt.Print("Pilih menu: ")
 		fmt.Scan(&a)
 		switch a {
 		case 1:
 			lihatKripto(*k, *n)
-			fmt.Println()
 		case 2:
 			inputKripto(k, n)
-			fmt.Println()
 		case 3:
 			fmt.Print("Masukkan nama kripto yang ingin dihapus: ")
-			var x string
 			fmt.Scan(&x)
 			hapusKripto(k, n, x)
-			fmt.Println()
 		case 4:
-			fmt.Print("Cari berdasarkan (harga/nama): ")
-			var y string
-			fmt.Scan(&y)
-			if y == "harga" {
-				fmt.Print("Masukkan harga kripto yang ingin dicari: ")
-				var x int
-				fmt.Scan(&x)
-				idx := binarySearchInt(*k, *n, x)
-				if idx != -1 {
-					fmt.Println("Kripto ditemukan di index:", idx)
-					fmt.Println("Nama:", k[idx].nama, "Harga:", k[idx].harga)
-				} else {
-					fmt.Println("Kripto tidak ditemukan")
-				}
-			} else if y == "nama" {
-				fmt.Print("Masukkan nama kripto yang ingin dicari: ")
-				var x string
-				fmt.Scan(&x)
-				idx := binarySearchStr(*k, *n, x)
-				if idx != -1 {
-					fmt.Println("Kripto ditemukan di index:", idx)
-					fmt.Println("Nama:", k[idx].nama, "Harga:", k[idx].harga)
-				} else {
-					fmt.Println("Kripto tidak ditemukan")
-				}
-			}
-			fmt.Println()
-		case 5:
 			fmt.Print("Urutkan berdasarkan (harga/nama): ")
-			var y string
 			fmt.Scan(&y)
 			if y == "harga" {
 				SelectionSortInt(k, *n)
+				fmt.Println("Data kripto sudah diurutkan")
 			} else if y == "nama" {
-				SelectionSort(k, *n)
+				insertionSortStr(k, *n)
+				fmt.Println("Data kripto sudah diurutkan")
 			}
-			fmt.Println("Data kripto sudah diurutkan")
-			fmt.Println()
-		case 6:
+			fmt.Print("Cari Kripto (y/n)? ")
+			fmt.Scan(&s)
+			if s == "y" {
+				cariKriptoBin(*k, *n)
+			} else if s == "n" {
+				return
+			}
+		case 5:
 			return
 		default:
 			fmt.Println("Pilihan tidak valid")
-			fmt.Println()
 		}
 	}
 }
@@ -188,6 +164,65 @@ func lihatKripto(k kripto, n int) {
 		fmt.Println(i+1, k[i].nama, "Harga:", k[i].harga)
 	}
 	fmt.Println("-----------------------------------------")
+	fmt.Println()
+}
+
+func cariKriptoBin(k kripto, n int) {
+	var y, search2 string
+	var search1, idx int
+
+	fmt.Print("Cari berdasarkan (harga/nama): ")
+	fmt.Scan(&y)
+	if y == "harga" {
+		fmt.Print("Masukkan harga kripto yang ingin dicari: ")
+		fmt.Scan(&search1)
+		idx = binarySearchInt(k, n, search1)
+		if idx != -1 {
+			fmt.Println("Kripto ditemukan di index:", idx)
+			fmt.Println("Nama:", k[idx].nama, "Harga:", k[idx].harga)
+		} else {
+			fmt.Println("Kripto tidak ditemukan")
+		}
+	} else if y == "nama" {
+		fmt.Print("Masukkan nama kripto yang ingin dicari: ")
+		fmt.Scan(&search2)
+		idx = binarySearchStr(k, n, search2)
+		if idx != -1 {
+			fmt.Println("Kripto ditemukan di index:", idx)
+			fmt.Println("Nama:", k[idx].nama, "Harga:", k[idx].harga)
+		} else {
+			fmt.Println("Kripto tidak ditemukan")
+		}
+	}
+}
+
+func cariKriptoSeq(k kripto, n int) {
+	var y, search2 string
+	var search1, idx int
+
+	fmt.Print("Cari berdasarkan (harga/nama): ")
+	fmt.Scan(&y)
+	if y == "harga" {
+		fmt.Print("Masukkan harga kripto yang ingin dicari: ")
+		fmt.Scan(&search1)
+		idx = sequentialSearchInt(k, n, search1)
+		if idx != -1 {
+			fmt.Println("Kripto ditemukan di index:", idx)
+			fmt.Println("Nama:", k[idx].nama, "Harga:", k[idx].harga)
+		} else {
+			fmt.Println("Kripto tidak ditemukan")
+		}
+	} else if y == "nama" {
+		fmt.Print("Masukkan nama kripto yang ingin dicari: ")
+		fmt.Scan(&search2)
+		idx = sequentialSearchStr(k, n, search2)
+		if idx != -1 {
+			fmt.Println("Kripto ditemukan di index:", idx)
+			fmt.Println("Nama:", k[idx].nama, "Harga:", k[idx].harga)
+		} else {
+			fmt.Println("Kripto tidak ditemukan")
+		}
+	}
 }
 
 func inputKripto(k *kripto, n *int) {
@@ -215,6 +250,7 @@ func hapusKripto(k *kripto, n *int, x string) {
 			*n--
 		}
 	}
+	fmt.Println("Kripto sudah terhapus.")
 }
 
 func binarySearchInt(A kripto, n, x int) int {
@@ -277,7 +313,7 @@ func sequentialSearchStr(A kripto, n int, x string) int {
 	return idx
 }
 
-func SelectionSort(A *kripto, n int) {
+func SelectionSortStr(A *kripto, n int) {
 	var i, idx, pass, temp2 int
 	var temp string
 
@@ -324,6 +360,47 @@ func SelectionSortInt(A *kripto, n int) {
 		temp2 = A[pass-1].nama
 		A[pass-1].nama = A[idx].nama
 		A[idx].nama = temp2
+		pass++
+	}
+}
+
+func insertionSortInt(A *kripto, n int) {
+	var pass, i, temp int
+	var temp2 string
+
+	pass = 1
+	for pass <= n-1 {
+		i = pass
+		temp = A[pass].harga
+		temp2 = A[pass].nama
+		for i > 0 && temp < A[i-1].harga {
+			A[i].harga = A[i-1].harga
+			A[i].nama = A[i-1].nama
+			i--
+		}
+		A[i].harga = temp
+		A[i].nama = temp2
+		pass++
+	}
+}
+
+func insertionSortStr(A *kripto, n int) {
+	var pass, i int
+	var temp string
+	var temp2 int
+
+	pass = 1
+	for pass <= n-1 {
+		i = pass
+		temp = A[pass].nama
+		temp2 = A[pass].harga
+		for i > 0 && temp < A[i-1].nama {
+			A[i].nama = A[i-1].nama
+			A[i].harga = A[i-1].harga
+			i--
+		}
+		A[i].nama = temp
+		A[i].harga = temp2
 		pass++
 	}
 }
