@@ -535,10 +535,3 @@ func lihatPortofolio(A arrAkun, idx int) {
 	enterKembali()
 }
 
-func tes2() {
-	fmt.Println("Hello, Sekai!")
-}
-
-func tes3() {
-	fmt.Println("Hello, Sekai!")
-}
