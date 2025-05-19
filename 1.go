@@ -535,3 +535,9 @@ func lihatPortofolio(A arrAkun, idx int) {
 	enterKembali()
 }
 
+<<<<<<< HEAD
+func tes() {
+	fmt.Println("Eeeeeeeeee")
+}
+=======
+>>>>>>> origin/main
