@@ -536,3 +536,8 @@ func lihatPortofolio(A arrAkun, idx int) {
 	fmt.Println("-----------------------------------------")
 	enterKembali()
 }
+
+func tes3() {
+	fmt.Println("tes3")
+	fmt.Println("tes3")
+}
