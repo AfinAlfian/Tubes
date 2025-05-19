@@ -22,8 +22,6 @@ type Akun struct {
 	saldo       int
 	aset        float64
 	nkriptoAset int
-	namaKrip    string
-	jHarga      int
 	kripto
 }
 
@@ -537,7 +535,3 @@ func lihatPortofolio(A arrAkun, idx int) {
 	enterKembali()
 }
 
-func tes3() {
-	fmt.Println("tes3")
-	fmt.Println("tes3")
-}
